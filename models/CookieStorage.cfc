@@ -46,6 +46,11 @@ component
 	property name="domain";
 
 	/**
+	 * The cookie samesite behaviour setting
+	 */
+	property name="samesite";
+
+	/**
 	 * If yes, sets cookie as httponly so that it cannot be accessed using JavaScript
 	 */
 	property name="httpOnly" type="boolean";
@@ -58,7 +63,7 @@ component
 	/**
 	 * Constructor
 	 *
-	 * @settings The storage settings struct
+	 * @settings        The storage settings struct
 	 * @settings.inject coldbox:moduleSettings:cbStorages
 	 */
 	function init( required settings ){
@@ -73,7 +78,12 @@ component
 		variables.secure              = arguments.settings.cookieStorage.secure;
 		variables.httpOnly            = arguments.settings.cookieStorage.httpOnly;
 		variables.domain              = arguments.settings.cookieStorage.domain;
-
+		if ( structKeyExists( arguments.settings.cookieStorage, "samesite" ) ) {
+			variables.samesite = arguments.settings.cookieStorage.samesite;
+		} else {
+			// backwards compatibility to mimic default cookie behaviour
+			variables.samesite = "";
+		}
 
 		// Cookie Prefix: used for better filtering and cleanups
 		variables.PREFIX = "CBSTORAGE_";
@@ -84,12 +94,12 @@ component
 	/**
 	 * Set a new variable in storage
 	 *
-	 * @name The name of the data key
-	 * @value The value of the data to store
-	 * @expires Cookie expiration
-	 * @secure If browser does not support Secure Sockets Layer (SSL) security, the cookie is not sent. To use the cookie, the page must be accessed using the https protocol.
-	 * @path URL, within a domain, to which the cookie applies; typically a directory. Only pages in this path can use the cookie. By default, all pages on the server that set the cookie can access the cookie.
-	 * @domain Domain in which cookie is valid and to which cookie content can be sent from the user's system.
+	 * @name     The name of the data key
+	 * @value    The value of the data to store
+	 * @expires  Cookie expiration
+	 * @secure   If browser does not support Secure Sockets Layer (SSL) security, the cookie is not sent. To use the cookie, the page must be accessed using the https protocol.
+	 * @path     URL, within a domain, to which the cookie applies; typically a directory. Only pages in this path can use the cookie. By default, all pages on the server that set the cookie can access the cookie.
+	 * @domain   Domain in which cookie is valid and to which cookie content can be sent from the user's system.
 	 * @httpOnly Apply the httpOnly or use the storage default
 	 * @sameSite Tells browsers when and how to fire cookies in first-or third-party situations. SameSite is used to identify whether or not to allow a cookie to be accessed. Defaults not set. Available options are strict, lax, or none
 	 *
@@ -103,7 +113,7 @@ component
 		string path      = "",
 		string domain    = variables.domain,
 		boolean httpOnly = variables.httpOnly,
-		string samesite
+		string samesite  = variables.samesite
 	){
 		// Serialize Values
 		var tmpValue = serializeJSON( arguments.value );
@@ -128,7 +138,7 @@ component
 			args[ "expires" ] = arguments.expires;
 		}
 		// only add samesite if existing in arguments to mimic default cookie behaviour
-		if ( !isNull( arguments.samesite ) ) {
+		if ( len( arguments.samesite ) ) {
 			args[ "samesite" ] = arguments.samesite;
 		}
 
@@ -154,7 +164,7 @@ component
 	/**
 	 * Get a new variable in storage if it exists, else return default value, else will return null.
 	 *
-	 * @name The name of the data key
+	 * @name         The name of the data key
 	 * @defaultValue The default value to return if not found in storage
 	 */
 	any function get( required name, defaultValue ){
@@ -190,10 +200,9 @@ component
 	/**
 	 * Delete a variable in the storage
 	 *
-	 * @name The name of the data key
-	 * @path URL, within a domain, to which the cookie applies; typically a directory. Only pages in this path can use the cookie. By default, all pages on the server that set the cookie can access the cookie.
+	 * @name   The name of the data key
+	 * @path   URL, within a domain, to which the cookie applies; typically a directory. Only pages in this path can use the cookie. By default, all pages on the server that set the cookie can access the cookie.
 	 * @domain Domain in which cookie is valid and to which cookie content can be sent from the user's system.
-	 *
 	 */
 	boolean function delete(
 		required name,

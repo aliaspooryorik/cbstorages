@@ -4,22 +4,22 @@
 
 The `cbstorages` module will provide you with a collection of **smart** :wink: storage services that will enhance the capabilities of the major ColdFusion (CFML) scopes:
 
-- Application
-- Cache
-- Cgi
-- Client
-- Cookie
-- Request
-- Session
+-   Application
+-   Cache
+-   Cgi
+-   Client
+-   Cookie
+-   Request
+-   Session
 
 ## Enhancement Capabilities
 
-- Consistent API for dealing with all persistent scopes
-- The `CacheStorage` allows you to leverage distributed caches like Couchbase, Redis, ehCache, etc for distributed session management. It can act as a distributed session scope.
-- The `CookieStorage` can do automatic encryption/decryption, httpOnly, security and much more.
-- Ability to retrieve and clear all values stored in a scope
-- Ability to deal with complex and simple values by leveraging JSON serialization
-- Much More
+-   Consistent API for dealing with all persistent scopes
+-   The `CacheStorage` allows you to leverage distributed caches like Couchbase, Redis, ehCache, etc for distributed session management. It can act as a distributed session scope.
+-   The `CookieStorage` can do automatic encryption/decryption, httpOnly, security and much more.
+-   Ability to retrieve and clear all values stored in a scope
+-   Ability to deal with complex and simple values by leveraging JSON serialization
+-   Much More
 
 ## License
 
@@ -27,15 +27,15 @@ Apache License, Version 2.0.
 
 ## Important Links
 
-- Source: https://github.com/coldbox-modules/cbstorages
-- Issues: https://github.com/coldbox-modules/cbstorages#issues
-- ForgeBox: https://forgebox.io/view/cbstorages
-- [Changelog](changelog.md)
+-   Source: https://github.com/coldbox-modules/cbstorages
+-   Issues: https://github.com/coldbox-modules/cbstorages#issues
+-   ForgeBox: https://forgebox.io/view/cbstorages
+-   [Changelog](changelog.md)
 
 ## Requirements
 
-- Lucee 5+
-- ColdFusion 2018+
+-   Lucee 5+
+-   ColdFusion 2018+
 
 ## Installation
 
@@ -47,13 +47,13 @@ Use CommandBox to install
 
 The module registers the following storage mappings:
 
-- `applicationStorage@cbstorages` - For application based storage
-- `CGIStorage@cbstorages` - For cgi based storage (read-only)
-- `clientStorage@cbstorages` - For client based storage
-- `cookieStorage@cbstorages` - For cookie based storage
-- `sessionStorage@cbstorages` - For session based storage
-- `cacheStorage@cbstorages` - For CacheBox based storage simulating session/client
-- `requestStorage@cbstorages` - For request based storage
+-   `applicationStorage@cbstorages` - For application based storage
+-   `CGIStorage@cbstorages` - For cgi based storage (read-only)
+-   `clientStorage@cbstorages` - For client based storage
+-   `cookieStorage@cbstorages` - For cookie based storage
+-   `sessionStorage@cbstorages` - For session based storage
+-   `cacheStorage@cbstorages` - For CacheBox based storage simulating session/client
+-   `requestStorage@cbstorages` - For request based storage
 
 You can check out the included [API Docs](https://apidocs.ortussolutions.com/#/coldbox-modules/cbstorages/) to see all the functions you can use for persistence.
 
@@ -80,6 +80,8 @@ cbStorages : {
 		secure 				: false,
 		// If yes, sets cookie as httponly so that it cannot be accessed using JavaScripts
 		httpOnly			: true,
+		// SameSite is used to identify whether or not to allow a cookie to be accessed. Defaults blank for backwards compatibility. Available options are strict, lax, or none
+		sameSite            : "",
 		// Applicable global cookie domain
 		domain 				: "",
 		// Use encryption of values
@@ -96,7 +98,7 @@ cbStorages : {
 
 ## CacheStorage Unique Tracking Identifiers
 
-The `CacheStorage` leverages a discovery algorithm to determine a user's request in order to store their session information.  The discovery order is the following:
+The `CacheStorage` leverages a discovery algorithm to determine a user's request in order to store their session information. The discovery order is the following:
 
 1. identifierProvider closure/lambda/udf
 2. Session identifiers
@@ -107,14 +109,14 @@ The `CacheStorage` leverages a discovery algorithm to determine a user's request
 You can use the `identifierProvider` in order to give the storage the unique identifier you want to use. This is useful if you do your own tracking your way. If not, we will use the ColdFusion approaches of `jsessionID` or `cfid/cftoken`.
 
 ```js
-identifierProvider = function(){
+identifierProvider = function () {
 	return cookie.myTrackingCookie;
-}
+};
 ```
 
 ## Storage Methods
 
-All storages must adhere to our interface, but each of them can extend as they see please.  Here is the basic interface for all storages:
+All storages must adhere to our interface, but each of them can extend as they see please. Here is the basic interface for all storages:
 
 ```java
 /**
@@ -244,22 +246,24 @@ interface {
 }
 ```
 
-********************************************************************************
+---
+
 Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.ortussolutions.com
-********************************************************************************
+
+---
 
 ### HONOR GOES TO GOD ABOVE ALL
 
 Because of His grace, this project exists. If you don't like this, then don't read it, its not for you.
 
->"Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:
-By whom also we have access by faith into this grace wherein we stand, and rejoice in hope of the glory of God.
-And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;
-And patience, experience; and experience, hope:
-And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the
-Holy Ghost which is given unto us. ." Romans 5:5
+> "Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:
+> By whom also we have access by faith into this grace wherein we stand, and rejoice in hope of the glory of God.
+> And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;
+> And patience, experience; and experience, hope:
+> And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the
+> Holy Ghost which is given unto us. ." Romans 5:5
 
 ### THE DAILY BREAD
 
- > "I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12
+> "I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12

@@ -36,6 +36,8 @@ component {
 				secure              : false,
 				// If yes, sets cookie as httponly so that it cannot be accessed using JavaScripts
 				httpOnly            : true,
+				// SameSite is used to identify whether or not to allow a cookie to be accessed. Defaults blank for backwards compatibility. Available options are strict, lax, or none
+				sameSite            : "",
 				// Applicable global cookie domain
 				domain              : "",
 				// Use encryption of values
